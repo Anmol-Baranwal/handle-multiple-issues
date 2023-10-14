@@ -1,0 +1,25 @@
+name: "Close Multiple Issues from Same Author"
+description: "Custom GitHub Action to close multiple issues from the same author."
+inputs:
+  label:
+    description: "Label to add to the new issue"
+    required: true
+    default: "true"
+  issueNumber:
+    description: "Include issue number in the comment"
+    required: false
+    default: "false"
+  issueNumberComment:
+    description: "Custom text to add after the issue number in the comment"
+    required: false
+    default: "false"
+  closeCurrent:
+    description: "Close the previous issue if set to true"
+    required: false
+    default: "false"
+runs:
+  using: "node20"
+  main: "index.ts"
+branding:
+  icon: "message-square"
+  color: "gray-dark"
