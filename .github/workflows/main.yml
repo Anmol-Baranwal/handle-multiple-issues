@@ -1,9 +1,12 @@
-name: Close Duplicate Issues
-on: issues
+name: Close Multiple Issues from Same Author
+on:
+  issues:
+    types:
+      - reopened
+      - opened
 jobs:
-  close-duplicate-issues:
+  close-multiple-issues:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -16,7 +19,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Workflow
-        run: npm run workflow
+      - name: Compile TypeScript
+        run: npx tsc
+
+      - name: Run Custom Action
+        run: |
+          node dist/index.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
