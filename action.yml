@@ -9,14 +9,14 @@ inputs:
     description: "Include issue number in the comment"
     required: false
     default: "false"
-  issueNumberComment:
+  comment:
     description: "Custom text to add after the issue number in the comment"
     required: false
     default: "false"
-  closeCurrent:
+  close:
     description: "Close the previous issue if set to true"
     required: false
-    default: "false"
+    default: "true"
 runs:
   using: "node20"
   main: "index.ts"

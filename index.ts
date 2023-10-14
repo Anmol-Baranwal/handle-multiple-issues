@@ -8,10 +8,10 @@ async function run() {
     const context = github.context;
 
     // Retrieve custom inputs
-    const label = core.getInput("label");
+    const label = core.getInput("label") || "up for grabs"; // Set default label
     const issueNumber = core.getInput("issueNumber") === "true";
-    const issueNumberComment = core.getInput("issueNumberComment");
-    const closeCurrent = core.getInput("closeCurrent") === "true";
+    const comment = core.getInput("comment");
+    const close = core.getInput("close") === "true";
 
     // Check if the same author has open issues
     const author = context.payload.issue.user.login;
@@ -53,16 +53,17 @@ async function run() {
 
       core.notice("Labels added to issue #" + issueNumberToLabel);
 
-      // Add comments if issueNumber is true
+      // Add comments based on conditions
       if (issueNumber) {
         const issueLink = `#${issueNumberToLabel}`;
         let commentText: string;
 
-        if (issueNumberComment) {
-          // If issueNumberComment is provided, add it after the issue number.
-          commentText = `${issueLink} ${issueNumberComment}`;
-        } else {
+        if (!comment) {
+          // Condition 1: issueNumber is true, comment is false
           commentText = `${issueLink} is already opened by you.`;
+        } else if (comment) {
+          // Condition 2: issueNumber is true, comment is true
+          commentText = `#${issueNumberToLabel} ${comment}`;
         }
 
         await octokit.rest.issues.createComment({
@@ -73,10 +74,21 @@ async function run() {
         });
 
         core.notice("Comment added to issue #" + issueNumberToLabel);
+      } else if (!issueNumber && comment) {
+        // Condition 3: issueNumber is false, comment is true
+
+        await octokit.rest.issues.createComment({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          issue_number: issueNumberToLabel,
+          body: comment,
+        });
+
+        core.notice("Comment added to issue #" + issueNumberToLabel);
       }
 
-      // Close the current issue if closeCurrent is true
-      if (closeCurrent && issueNumberToLabel === context.issue.number) {
+      // Close the current issue if close is true
+      if (close && issueNumberToLabel === context.issue.number) {
         await octokit.rest.issues.update({
           owner: context.repo.owner,
           repo: context.repo.repo,
