@@ -4,6 +4,9 @@ on:
     types:
       - reopened
       - opened
+  workflow_dispatch:
+  push: { branches: ["master", "main", "testing"] }
+
 jobs:
   close-multiple-issues:
     runs-on: ubuntu-latest
