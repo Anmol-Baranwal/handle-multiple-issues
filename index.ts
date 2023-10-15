@@ -3,7 +3,15 @@ import * as github from "@actions/github";
 
 async function run() {
   try {
-    const token = core.getInput("GITHUB_TOKEN");
+    const token = process.env.GITHUB_TOKEN;
+
+    if (!token) {
+      core.setFailed(
+        "GitHub token is missing. Make sure to set the GITHUB_TOKEN secret."
+      );
+      return;
+    }
+
     const octokit = github.getOctokit(token);
     const context = github.context;
 
