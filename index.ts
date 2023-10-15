@@ -26,8 +26,12 @@ async function run() {
     // Retrieve custom inputs
     const label = core.getInput("label") || "up for grabs"; // Set default label
     const issueNumber = core.getInput("issueNumber") === "true"; // converts to boolean
-    const comment = core.getInput("comment");
+    // const comment = core.getInput("comment");
     const close = core.getInput("close") === "true";
+
+    const comment = "is assigned to u";
+
+    const checkComment = comment.trim() !== "";
 
     // Check if the same author has open issues
     const author = context.payload.issue?.user.login;
@@ -48,8 +52,8 @@ async function run() {
 
     core.notice("step 3.");
 
-    for (const authorIssue of authorIssues) {
-      const issueNumberToLabel = authorIssue.number;
+    if (authorIssues.length > 1) {
+      const issueNumberToLabel = context.issue.number;
 
       // Check if label is an array and add multiple labels if needed
       if (Array.isArray(label)) {
@@ -78,10 +82,10 @@ async function run() {
         const issueLink = `#${issueNumberToLabel}`;
         let commentText: string = "";
 
-        if (!comment) {
+        if (!checkComment) {
           // Condition 1: issueNumber is true, comment is false
           commentText = `${issueLink} is already opened by you.`;
-        } else if (comment) {
+        } else if (checkComment) {
           // Condition 2: issueNumber is true, comment is true
           commentText = `#${issueNumberToLabel} ${comment}`;
         }
@@ -94,7 +98,7 @@ async function run() {
         });
 
         core.notice("Comment added to issue #" + issueNumberToLabel);
-      } else if (!issueNumber && comment) {
+      } else if (!issueNumber && checkComment) {
         // Condition 3: issueNumber is false, comment is true
 
         await octokit.rest.issues.createComment({
@@ -122,11 +126,6 @@ async function run() {
   } catch (error: any) {
     core.error("No Issue found!");
     core.setFailed("Workflow failed: " + error.message);
-
-    // if (error instanceof Error) {
-    //   core.error("No Issue found!");
-    //   core.setFailed("Workflow failed: " + error.message);
-    // }
   }
 }
 
