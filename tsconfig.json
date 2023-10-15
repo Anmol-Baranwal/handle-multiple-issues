@@ -2,7 +2,12 @@
     "compilerOptions": {
       "module": "commonjs",
       "target": "ES2018",
-      "outDir": "dist"
+      "outDir": "dist",
+      "lib": [
+        "esnext.asynciterable"
+      ],
+   
     },
+    
     "include": ["index.ts"]
 }
