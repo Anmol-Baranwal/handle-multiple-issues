@@ -3,7 +3,7 @@ import * as github from "@actions/github";
 
 async function run() {
   try {
-    const token = process.env.ISSUES_TOKEN;
+    const token = process.env.GITHUB_TOKEN;
 
     if (!token) {
       core.setFailed(
@@ -15,6 +15,8 @@ async function run() {
     const octokit = github.getOctokit(token);
     const context = github.context;
 
+    core.notice("step 1.");
+
     // Retrieve custom inputs
     const label = core.getInput("label") || "up for grabs"; // Set default label
     const issueNumber = core.getInput("issueNumber") === "true"; // converts to boolean
@@ -23,6 +25,8 @@ async function run() {
 
     // Check if the same author has open issues
     const author = context.payload.issue?.user.login;
+
+    core.notice("step 2.");
 
     const { data: authorIssues } = await octokit.rest.issues.listForRepo({
       owner: context.repo.owner,
@@ -35,6 +39,8 @@ async function run() {
       core.notice("No existing open issues for this author.");
       return; // No need to continue.
     }
+
+    core.notice("step 3.");
 
     for (const authorIssue of authorIssues) {
       const issueNumberToLabel = authorIssue.number;
