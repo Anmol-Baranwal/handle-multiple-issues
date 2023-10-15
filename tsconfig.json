@@ -4,9 +4,10 @@
       "target": "ES2018",
       "outDir": "dist",
       "lib": [
+        "esnext",
         "esnext.asynciterable"
       ],
-   
+      "strict": true
     },
     
     "include": ["index.ts"]
