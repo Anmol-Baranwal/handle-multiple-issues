@@ -3,7 +3,7 @@ import * as github from "@actions/github";
 
 async function run() {
   try {
-    const token = process.env.GITHUB_TOKEN;
+    const token = process.env.ISSUES_TOKEN;
 
     if (!token) {
       core.setFailed(
