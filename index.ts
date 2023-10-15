@@ -14,7 +14,7 @@ async function run() {
     const close = core.getInput("close") === "true";
 
     // Check if the same author has open issues
-    const author = context.payload.issue.user.login;
+    const author = context.payload.issue?.user.login;
 
     const { data: authorIssues } = await octokit.rest.issues.listForRepo({
       owner: context.repo.owner,
@@ -56,7 +56,7 @@ async function run() {
       // Add comments based on conditions
       if (issueNumber) {
         const issueLink = `#${issueNumberToLabel}`;
-        let commentText: string;
+        let commentText: string = "";
 
         if (!comment) {
           // Condition 1: issueNumber is true, comment is false
@@ -99,9 +99,14 @@ async function run() {
         core.notice("Issue #" + issueNumberToLabel + " closed");
       }
     }
-  } catch (error) {
+  } catch (error: any) {
     core.error("No Issue found!");
     core.setFailed("Workflow failed: " + error.message);
+
+    // if (error instanceof Error) {
+    //   core.error("No Issue found!");
+    //   core.setFailed("Workflow failed: " + error.message);
+    // }
   }
 }
 
