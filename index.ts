@@ -54,8 +54,16 @@ async function run() {
 
     core.notice("step 3.");
 
-    if (authorIssues.length > 1) {
+    const previousIssueNumbers = authorIssues
+      .filter((issue) => issue.number !== context.issue.number) // Exclude the current issue
+      .map((issue) => issue.number);
+
+    if (previousIssueNumbers.length > 0) {
       const issueNumberToLabel = context.issue.number;
+
+      const issueLinks = previousIssueNumbers
+        .map((issueNumber) => `#${issueNumber}`)
+        .join(", ");
 
       // Check if label is an array and add multiple labels if needed
       if (Array.isArray(label)) {
@@ -81,15 +89,15 @@ async function run() {
 
       // Add comments based on conditions
       if (issueNumber) {
-        const issueLink = `#${issueNumberToLabel}`;
+        // const issueLink = `#${issueNumberToLabel}`;
         let commentText: string = "";
 
         if (!checkComment) {
           // Condition 1: issueNumber is true, comment is false
-          commentText = `${issueLink} is already opened by you.`;
+          commentText = `${issueLinks} is already opened by you.`;
         } else if (checkComment) {
           // Condition 2: issueNumber is true, comment is true
-          commentText = `${issueLink} ${comment}`;
+          commentText = `${issueLinks} ${comment}`;
         }
 
         await octokit.rest.issues.createComment({
