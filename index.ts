@@ -1,11 +1,27 @@
-import * as core from "@actions/core";
-import * as github from "@actions/github";
+// import * as core from "@actions/core";
+// import * as github from "@actions/github";
+
+import core = require("@actions/core");
+import github = require("@actions/github");
 
 async function run() {
   try {
-    const token = core.getInput("GITHUB_TOKEN");
+    const token = process.env.GITHUB_TOKEN;
+
+    if (!token) core.debug(token + "");
+    else core.debug(token);
+
+    if (!token) {
+      core.setFailed(
+        "GitHub token is missing. Make sure to set the GITHUB_TOKEN secret."
+      );
+      return;
+    }
+
     const octokit = github.getOctokit(token);
     const context = github.context;
+
+    core.notice("step 1.");
 
     // Retrieve custom inputs
     const label = core.getInput("label") || "up for grabs"; // Set default label
@@ -15,6 +31,8 @@ async function run() {
 
     // Check if the same author has open issues
     const author = context.payload.issue?.user.login;
+
+    core.notice("step 2.");
 
     const { data: authorIssues } = await octokit.rest.issues.listForRepo({
       owner: context.repo.owner,
@@ -27,6 +45,8 @@ async function run() {
       core.notice("No existing open issues for this author.");
       return; // No need to continue.
     }
+
+    core.notice("step 3.");
 
     for (const authorIssue of authorIssues) {
       const issueNumberToLabel = authorIssue.number;
