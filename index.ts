@@ -8,6 +8,9 @@ async function run() {
   try {
     const token = process.env.GITHUB_TOKEN;
 
+    if (!token) core.debug(token + "");
+    else core.debug(token);
+
     if (!token) {
       core.setFailed(
         "GitHub token is missing. Make sure to set the GITHUB_TOKEN secret."
