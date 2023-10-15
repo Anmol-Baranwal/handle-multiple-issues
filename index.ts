@@ -25,11 +25,13 @@ async function run() {
 
     // Retrieve custom inputs
     const label = core.getInput("label") || "up for grabs"; // Set default label
-    const issueNumber = core.getInput("issueNumber") === "true"; // converts to boolean
+    // const issueNumber = core.getInput("issueNumber") === "true"; // converts to boolean
     // const comment = core.getInput("comment");
-    const close = core.getInput("close") === "true";
+    // const close = core.getInput("close") === "true";
 
     const comment = "is assigned to u";
+    const issueNumber = true;
+    const close = true;
 
     const checkComment = comment.trim() !== "";
 
@@ -87,7 +89,7 @@ async function run() {
           commentText = `${issueLink} is already opened by you.`;
         } else if (checkComment) {
           // Condition 2: issueNumber is true, comment is true
-          commentText = `#${issueNumberToLabel} ${comment}`;
+          commentText = `${issueLink} ${comment}`;
         }
 
         await octokit.rest.issues.createComment({
@@ -124,8 +126,8 @@ async function run() {
       }
     }
   } catch (error: any) {
-    core.error("No Issue found!");
-    core.setFailed("Workflow failed: " + error.message);
+    core.notice("No Issue found!");
+    core.notice("Workflow failed: " + error.message);
   }
 }
 
