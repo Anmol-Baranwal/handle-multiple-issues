@@ -1,8 +1,9 @@
 "use strict";
-// import * as core from "@actions/core";
-// import * as github from "@actions/github";
+Object.defineProperty(exports, "__esModule", { value: true });
 const core = require("@actions/core");
 const github = require("@actions/github");
+// const core = require("@actions/core");
+// const github = require("@actions/github");
 async function HandleMultipleIssues() {
     var _a;
     try {
