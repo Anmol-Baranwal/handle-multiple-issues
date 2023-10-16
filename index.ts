@@ -1,10 +1,10 @@
-// import * as core from "@actions/core";
-// import * as github from "@actions/github";
+import * as core from "@actions/core";
+import * as github from "@actions/github";
 
-import core = require("@actions/core");
-import github = require("@actions/github");
+// import core = require("@actions/core");
+// import github = require("@actions/github");
 
-async function run() {
+async function HandleMultipleIssues() {
   try {
     const token = process.env.GITHUB_TOKEN;
 
@@ -25,13 +25,9 @@ async function run() {
 
     // Retrieve custom inputs
     const label = core.getInput("label") || "up for grabs"; // Set default label
-    // const issueNumber = core.getInput("issueNumber") === "true"; // converts to boolean
-    // const comment = core.getInput("comment");
-    // const close = core.getInput("close") === "true";
-
-    const comment = "is assigned to u";
-    const issueNumber = true;
-    const close = true;
+    const issueNumber = core.getInput("issueNumber") === "true"; // converts to boolean
+    const comment = core.getInput("comment");
+    const close = core.getInput("close") === "true";
 
     const checkComment = comment.trim() !== "";
 
@@ -139,4 +135,4 @@ async function run() {
   }
 }
 
-run();
+HandleMultipleIssues();
