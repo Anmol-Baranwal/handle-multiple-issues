@@ -13,7 +13,7 @@ inputs:
   close:
     description: "Close the current issue if set to true."
 runs:
-  using: "node20"
+  using: "node16"
   main: "dist/index.js"
 branding:
   icon: "message-square"
