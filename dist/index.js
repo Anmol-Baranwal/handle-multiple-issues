@@ -1,7 +1,6 @@
 "use strict";
 // import * as core from "@actions/core";
 // import * as github from "@actions/github";
-Object.defineProperty(exports, "__esModule", { value: true });
 const core = require("@actions/core");
 const github = require("@actions/github");
 async function HandleMultipleIssues() {
@@ -21,9 +20,9 @@ async function HandleMultipleIssues() {
         core.notice("step 1.");
         // Retrieve custom inputs
         const label = core.getInput("label") || "up for grabs"; // Set default label
-        const issueNumber = core.getInput("issueNumber") === "true"; // converts to boolean
+        const issueNumber = core.getInput("issueNumber") === "true" || false; // converts to boolean
         const comment = core.getInput("comment");
-        const close = core.getInput("close") === "true";
+        const close = core.getInput("close") === "true" || false;
         const checkComment = comment.trim() !== "";
         // Check if the same author has open issues
         const author = (_a = context.payload.issue) === null || _a === void 0 ? void 0 : _a.user.login;
