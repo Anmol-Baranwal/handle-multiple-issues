@@ -14,7 +14,7 @@ inputs:
     description: "Close the current issue if set to true."
 runs:
   using: "node20"
-  main: "index.ts"
+  main: "dist/index.js"
 branding:
   icon: "message-square"
   color: "gray-dark"
