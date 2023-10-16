@@ -3,8 +3,8 @@ description: "GitHub Action to handle the current issue if the author has existi
 inputs:
   label:
     description: "Label to add to the current issue."
-    required: true
-    default: "true"
+    required: false
+    default: "up for grabs"
   issueNumber:
     description: "Include the previous issue number created by the author in the comment."
     default: "false"
