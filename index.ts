@@ -1,8 +1,8 @@
-import * as core from "@actions/core";
-import * as github from "@actions/github";
+// import * as core from "@actions/core";
+// import * as github from "@actions/github";
 
-// import core = require("@actions/core");
-// import github = require("@actions/github");
+import core = require("@actions/core");
+import github = require("@actions/github");
 
 async function HandleMultipleIssues() {
   try {
