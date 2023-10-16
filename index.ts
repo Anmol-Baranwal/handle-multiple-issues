@@ -1,8 +1,8 @@
 // import * as core from "@actions/core";
 // import * as github from "@actions/github";
 
-import core = require("@actions/core");
-import github = require("@actions/github");
+const core = require("@actions/core");
+const github = require("@actions/github");
 
 async function HandleMultipleIssues() {
   try {
@@ -51,14 +51,14 @@ async function HandleMultipleIssues() {
     core.notice("step 3.");
 
     const previousIssueNumbers = authorIssues
-      .filter((issue) => issue.number !== context.issue.number) // Exclude the current issue
-      .map((issue) => issue.number);
+      .filter((issue: { number: any }) => issue.number !== context.issue.number) // Exclude the current issue
+      .map((issue: { number: any }) => issue.number);
 
     if (previousIssueNumbers.length > 0) {
       const issueNumberToLabel = context.issue.number;
 
       const issueLinks = previousIssueNumbers
-        .map((issueNumber) => `#${issueNumber}`)
+        .map((issueNumber: any) => `#${issueNumber}`)
         .join(", ");
 
       // Check if label is an array and add multiple labels if needed
