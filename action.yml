@@ -7,13 +7,11 @@ inputs:
     default: "up for grabs"
   issueNumber:
     description: "Include the previous issue number created by the author in the comment."
-    default: "false"
   comment:
     description: "Custom text to add with or without the issue number in the comment."
-    default: "false"
+    default: ""
   close:
     description: "Close the current issue if set to true."
-    default: "true"
 runs:
   using: "node20"
   main: "index.ts"

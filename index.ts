@@ -25,9 +25,9 @@ async function HandleMultipleIssues() {
 
     // Retrieve custom inputs
     const label = core.getInput("label") || "up for grabs"; // Set default label
-    const issueNumber = core.getInput("issueNumber") === "true"; // converts to boolean
+    const issueNumber = core.getInput("issueNumber") === "true" || false; // converts to boolean
     const comment = core.getInput("comment");
-    const close = core.getInput("close") === "true";
+    const close = core.getInput("close") === "true" || false;
 
     const checkComment = comment.trim() !== "";
 
