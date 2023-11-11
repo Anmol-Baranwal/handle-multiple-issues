@@ -42,4 +42,4 @@ Because of how GitHub Actions are run, the source code of this project is transp
 
 ## Remarks ✅
 
-- If something is missing here, or you feel something is not well described, please [raise an issue](https://github.com/rupali-codes/LinksHub/issues) with relevant template.
+- If something is missing here, or you feel something is not well described, please [raise an issue](https://github.com/rupali-codes/LinksHub/issues/new/choose) with relevant template.
