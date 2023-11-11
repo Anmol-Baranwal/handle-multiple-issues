@@ -26,7 +26,7 @@ body:
       options:
         - label: "I have checked the existing [issues](https://github.com/Anmol-Baranwal/handle-multiple-issues/issues?q=is%3Aissue+)"
           required: true
-        - label: "I have read the [Contributing Guidelines](https://github.com/Anmol-Baranwal/handle-multiple-issues/blob/main/CONTRIBUTING.md)"
+        - label: "I have read the [Contributing Guidelines](https://github.com/Anmol-Baranwal/handle-multiple-issues/blob/main/Contributing.md)"
           required: true
         - label: "I am willing to work on this issue (optional)"
           required: false
