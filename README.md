@@ -142,7 +142,9 @@ with:
 
 ### How to Suggest Features
 
-Feel free to suggest any features or report bugs using these issue templates.
+All changes are welcome. Please read our [contributing guidelines](CONTRIBUTING.md)
+
+Feel free to suggest any features or report bugs using these [issue templates](https://github.com/Anmol-Baranwal/handle-multiple-issues/issues/new/choose).
 
 ---
 
