@@ -5,6 +5,8 @@ import * as github from "@actions/github";
 // const github = require("@actions/github");
 
 async function HandleMultipleIssues() {
+  console.log("Hello World!");
+
   try {
     const token = process.env.GITHUB_TOKEN;
 
