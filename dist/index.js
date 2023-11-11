@@ -38,7 +38,8 @@ async function HandleMultipleIssues() {
     var _a;
     console.log("Hello World!");
     try {
-        const token = process.env.GITHUB_TOKEN;
+        // const token = process.env.GITHUB_TOKEN;
+        const token = core.getInput("gh-token");
         if (!token)
             core.debug(token + "");
         else

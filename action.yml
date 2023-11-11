@@ -13,6 +13,9 @@ inputs:
     default: ""
   close:
     description: "Close the current issue if set to true."
+  gh-token:
+    description: "The GitHub token for authentication."
+    required: true
 runs:
   using: "node16"
   main: "dist/index.js"
