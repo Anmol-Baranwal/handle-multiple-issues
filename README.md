@@ -6,8 +6,8 @@ With this GitHub workflow, you can automate tasks whenever an author creates mul
 
 ### Use cases
 
-- The workflow can comment which open issues are already created by the author.
-- You can add your own comment message
+- The workflow can comment which issues are already created by the author that are currently in open state.
+- You can add your own comment message (multiline as well)
 - You can add a custom label to add whenever there is open issues by the same author
 - You can close the issue (previous issues won't be affected) and just the current issue will be closed
 
@@ -27,13 +27,13 @@ jobs:
   handle-multiple-issues:
     runs-on: ubuntu-latest
     steps:
-      - name: Custom Action
+      - name: Handle Multiple Issues
         uses: Anmol-Baranwal/handle-multiple-issues@main
         with:
           label: "multiple issues" #default
           close: false  #default
           issueNumber: true  #default is false
-          gh-token: ${{ secrets.GITHUB_TOKEN }} #required
+          gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
 ```
 
 ---
@@ -43,14 +43,27 @@ jobs:
 Various inputs are defined to let you configure the action:
 
 | Name | Description | Default |
-| --- | --- | --- |
+| ---- | ----------- | ------- |
 | `gh-token` | The GitHub token for authentication | N/A |
 | `label` | A label to add if the conditions are fulfilled | `'multiple issues'` |
 | `comment` | A message to comment | `''` |
 | `close` | This is used to close the issue if set to true | `'false'` |
 | `issueNumber` | This will comment all the previous issues that are created by him | `'potential-duplicate'` |
 
-> Various Combinations that you can use
+<br>
+
+The four Combinations that you can use with comment and issueNumber:
+
+> Suppose, a user has created `#1`, `#2` which are currently open and we have now included this workflow. Now suppose he creates `#3` issue.
+
+> You can see the [examples](#examples) for better clarity.
+
+| issueNumber | comment | Purpose | Message by Bot |
+| ----------- | ------- | ------- | -------------- |
+| `true` |  | To mention issues with default message | `#2, #1 is already opened by you` |
+| `true` | `custom_message` | To mention issues with custom message | `#2, #1 custom_message` |
+| `false` | `custom_message` | Custom message without mentioning issues | `custom_message` |
+| `false` |  | Nothing is mentioned, only label is added as per workflow | |
 
 
 ---
@@ -58,7 +71,65 @@ Various inputs are defined to let you configure the action:
 ### Examples
 
 <details>
-  <summary>Issue Triage</summary>
+  <summary>Add a custom label and print the issues number with a default message</summary>
+
+```yml
+uses: Anmol-Baranwal/handle-multiple-issues@main
+with:
+  label: "multiple issues" #default
+  close: false  #default
+  issueNumber: true  #default is false
+  gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
+```
+  
+</details>
+
+<br>
+
+<details>
+  <summary>Add a default label and print the issues number with a custom message</summary>
+  
+```yml
+uses: Anmol-Baranwal/handle-multiple-issues@main
+with:
+  label: "multiple issues" #default
+  close: false  #default
+  issueNumber: true  #default is false
+  gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
+```
+  
+</details>
+
+<br>
+
+<details>
+  <summary>Print a custom message without mentioning issues number</summary>
+  
+```yml
+uses: Anmol-Baranwal/handle-multiple-issues@main
+with:
+  label: "multiple issues" #default
+  close: false  #default
+  issueNumber: true  #default is false
+  gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
+```
+  
+</details>
+
+<br>
+
+<details>
+  <summary>Multiline comment message with issues number</summary>
+  
+```yml
+uses: Anmol-Baranwal/handle-multiple-issues@main
+with:
+  label: "multiple issues" #default
+  close: false  #default
+  issueNumber: true  #default is false
+  gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
+```
+  
 </details>
 
 ---
