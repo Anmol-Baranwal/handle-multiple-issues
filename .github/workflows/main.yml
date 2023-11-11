@@ -15,19 +15,3 @@ jobs:
       - uses: ./
         with:
           gh-token: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: 16
-
-      # - name: Install Dependencies
-      #   run: npm install
-
-      # - name: Compile TypeScript
-      #   run: npx tsc
-
-      # - name: Run Custom Action
-      #   run: |
-      #     node dist/index.js
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
