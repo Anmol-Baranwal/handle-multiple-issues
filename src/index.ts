@@ -23,9 +23,8 @@ async function HandleMultipleIssues() {
     core.notice("step 1.");
 
     // Retrieve custom inputs
-    // const label = core.getInput("label") || "up for grabs"; // Set default label
+    const label = core.getInput("label") || "multiple issues"; // Set default label
     const labelInput = core.getInput("label");
-    const labels = labelInput ? labelInput.split(",") : ["up for grabs"];
     const issueNumber = core.getInput("issueNumber") === "true" || false; // converts to boolean
     const comment = core.getInput("comment");
     const close = core.getInput("close") === "true" || false;
@@ -63,8 +62,8 @@ async function HandleMultipleIssues() {
         .join(", ");
 
       // Check if label is an array and add multiple labels if needed
-      if (Array.isArray(labels) && labels.length > 0) {
-        for (const lbl of labels) {
+      if (Array.isArray(label)) {
+        for (const lbl of label) {
           await octokit.rest.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -78,7 +77,7 @@ async function HandleMultipleIssues() {
           owner: context.repo.owner,
           repo: context.repo.repo,
           issue_number: issueNumberToLabel,
-          labels: [labels[0]],
+          labels: [label],
         });
       }
 

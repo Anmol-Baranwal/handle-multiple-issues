@@ -1,11 +1,11 @@
-name: "Close Multiple Issues from Same Author"
+name: "Handle Multiple Issues from Same Author"
 description: "GitHub Action to handle the current issue if the author has existing open issues."
 author: "Anmol Baranwal"
 inputs:
   label:
     description: "Label to add to the current issue."
     required: false
-    default: "up for grabs"
+    default: "multiple issues"
   issueNumber:
     description: "Include the previous issue number created by the author in the comment."
   comment:

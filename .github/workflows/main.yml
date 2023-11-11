@@ -1,11 +1,11 @@
-name: Close Multiple Issues from Same Author
+name: Handle Multiple Issues from Same Author
 on:
   issues:
     types:
       - reopened
       - opened
   workflow_dispatch:
-  push: { branches: ["master", "main", "testing"] }
+  push: { branches: ["main", "testing"] }
 
 jobs:
   close-multiple-issues:
@@ -14,4 +14,5 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./
         with:
+          issueNumber: true
           gh-token: ${{ secrets.GITHUB_TOKEN }}

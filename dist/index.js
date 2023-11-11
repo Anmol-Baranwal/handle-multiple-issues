@@ -32,13 +32,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
-// const core = require("@actions/core");
-// const github = require("@actions/github");
 async function HandleMultipleIssues() {
     var _a;
     console.log("Hello World!");
     try {
-        // const token = process.env.GITHUB_TOKEN;
         const token = core.getInput("gh-token");
         if (!token)
             core.debug(token + "");
@@ -52,7 +49,8 @@ async function HandleMultipleIssues() {
         const context = github.context;
         core.notice("step 1.");
         // Retrieve custom inputs
-        const label = core.getInput("label") || "up for grabs"; // Set default label
+        const label = core.getInput("label") || "multiple issues"; // Set default label
+        const labelInput = core.getInput("label");
         const issueNumber = core.getInput("issueNumber") === "true" || false; // converts to boolean
         const comment = core.getInput("comment");
         const close = core.getInput("close") === "true" || false;

@@ -1,7 +1,7 @@
 {
-  "name": "close-multiple-issues",
+  "name": "handle-multiple-issues",
   "version": "1.0.0",
-  "description": "to take actions of multiple issues created by same author",
+  "description": "GitHub Action workflow designed to take actions on multiple issues created by the same author.",
   "main": "dist/index.js",
   "scripts": {
     "test": "npm test",
@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Anmol-Baranwal/close-multiple-issues.git"
+    "url": "git+https://github.com/Anmol-Baranwal/handle-multiple-issues.git"
   },
   "bugs": {
-    "url": "https://github.com/Anmol-Baranwal/close-multiple-issues/issues"
+    "url": "https://github.com/Anmol-Baranwal/handle-multiple-issues/issues"
   },
-  "homepage": "https://github.com/Anmol-Baranwal/close-multiple-issues#readme",
+  "homepage": "https://github.com/Anmol-Baranwal/handle-multiple-issues#readme",
   "keywords": [
     "action",
     "github",
-    "duplicate",
+    "same author",
     "issues",
     "close",
     "label",
@@ -30,7 +30,7 @@
     ".": "./dist/index.js"
   },
   "author": "Anmol-Baranwal <anmolbaranwal119@gmail.com> (https://github.com/Anmol-Baranwal)",
-  "license": "GPL-3.0-only",
+  "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
