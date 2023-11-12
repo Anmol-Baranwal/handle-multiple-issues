@@ -13,7 +13,7 @@ With this GitHub workflow, you can automate tasks whenever an author creates mul
 
 ---
 
-### Getting Started
+### 🚀 Getting Started
 
 - For custom configuration in-depth, you can check [examples](#examples).
 
@@ -68,7 +68,7 @@ The four Combinations that you can use with comment and issueNumber:
 
 ---
 
-### Examples
+### 🔖 Examples
 
 <details>
   <summary>Add a custom label and print the issue number with a default message</summary>
@@ -125,8 +125,8 @@ uses: Anmol-Baranwal/handle-multiple-issues@main
 with:
   label: "multiple issues" #default
   comment: |
-    'custom message1'
-    'custom message2'
+    custom message1
+    custom message2
   issueNumber: true  #default is false
   gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
 
@@ -140,7 +140,7 @@ with:
 
 ---
 
-### How to Suggest Features
+### 🤝 How to Contribute?
 
 All changes are welcome. Please read our [contributing guidelines](Contributing.md)
 
@@ -174,7 +174,7 @@ The scripts and documentation in this project are released under the <a href="./
 
 ### Author 
 
-> Contact me for further details.
+> Feel free to contact me if you need a custom workflow for your project. I'll be happy to build one.
 
 <table>
 <td align="center" width="200"><pre><a href="https://github.com/Anmol-Baranwal"><img src="https://avatars.githubusercontent.com/u/74038190?v=4" width="200" alt="GitHub Profile of Anmol Baranwal" /><br><sub>Anmol Baranwal</sub></a><br>@Anmol-Baranwal</pre></td>
