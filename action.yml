@@ -4,7 +4,6 @@ author: 'Anmol Baranwal <anmolbaranwal119@gmail.com>'
 inputs:
   label:
     description: 'Label to add to the current issue.'
-    required: false
     default: 'multiple issues'
   issueNumber:
     description: 'Include the previous issue number created by the author in the comment.'
@@ -20,5 +19,5 @@ runs:
   using: 'node16'
   main: 'dist/index.js'
 branding:
-  icon: 'message-square'
+  icon: 'activity'
   color: 'green'
