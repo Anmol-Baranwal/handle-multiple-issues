@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Handle Multiple Issues
-        uses: Anmol-Baranwal/handle-multiple-issues@main
+        uses: Anmol-Baranwal/handle-multiple-issues@v1
         with:
           label: "multiple issues" #default
           close: false  #default
@@ -74,7 +74,7 @@ The four Combinations that you can use with comment and issueNumber:
   <summary>Add a custom label and print the issue number with a default message</summary>
 
 ```yml
-uses: Anmol-Baranwal/handle-multiple-issues@main
+uses: Anmol-Baranwal/handle-multiple-issues@v1
 with:
   label: "up for grabs" #default is 'multiple issues'
   close: false  #default
@@ -90,7 +90,7 @@ with:
   <summary>Add a default label and print the issue number with a custom message</summary>
   
 ```yml
-uses: Anmol-Baranwal/handle-multiple-issues@main
+uses: Anmol-Baranwal/handle-multiple-issues@v1
 with:
   # label 'multiple issues' will be added
   comment: 'custom message'
@@ -106,7 +106,7 @@ with:
   <summary>Print a custom message without mentioning issue number</summary>
   
 ```yml
-uses: Anmol-Baranwal/handle-multiple-issues@main
+uses: Anmol-Baranwal/handle-multiple-issues@v1
 with:
   label: "multiple issues" #default
   comment: 'custom message'
@@ -121,7 +121,7 @@ with:
   <summary>Multiline comment message with issue number</summary>
   
 ```yml
-uses: Anmol-Baranwal/handle-multiple-issues@main
+uses: Anmol-Baranwal/handle-multiple-issues@v1
 with:
   label: "multiple issues" #default
   comment: |
