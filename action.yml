@@ -1,24 +1,24 @@
-name: "Handle Multiple Issues from Same Author"
-description: "GitHub Action to handle the current issue if the author has existing open issues."
-author: "Anmol Baranwal"
+name: 'Handle Multiple Issues'
+description: 'Handle the current issue if the author has existing open issues'
+author: 'Anmol Baranwal <anmolbaranwal119@gmail.com>'
 inputs:
   label:
-    description: "Label to add to the current issue."
+    description: 'Label to add to the current issue.'
     required: false
-    default: "multiple issues"
+    default: 'multiple issues'
   issueNumber:
-    description: "Include the previous issue number created by the author in the comment."
+    description: 'Include the previous issue number created by the author in the comment.'
   comment:
-    description: "Custom text to add with or without the issue number in the comment."
-    default: ""
+    description: 'Custom text to add with or without the issue number in the comment.'
+    default: ''
   close:
-    description: "Close the current issue if set to true."
+    description: 'Close the current issue if set to true.'
   gh-token:
-    description: "The GitHub token for authentication."
+    description: 'The GitHub token for authentication.'
     required: true
 runs:
-  using: "node16"
-  main: "dist/index.js"
+  using: 'node16'
+  main: 'dist/index.js'
 branding:
-  icon: "message-square"
-  color: "gray-dark"
+  icon: 'message-square'
+  color: 'green'
