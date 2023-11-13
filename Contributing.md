@@ -6,7 +6,7 @@
 
 Hi there! We're thrilled that you'd like to contribute to this project. Your help is essential for keeping it great.
 
-Thank you for taking the time to contribute to our project. Please take a moment to read the following guidelines before contributing:
+Please take a moment to read the following guidelines before contributing:
 
 > ⚠️IMPORTANT **Note**
 >
@@ -24,6 +24,8 @@ Thank you for taking the time to contribute to our project. Please take a moment
 - If you're unable to find an open issue addressing the problem, open a new one using this [bug template](https://github.com/Anmol-Baranwal/handle-multiple-issues/issues/new). Be sure to include a **title and clear description**, and as much relevant information as possible.
 
 ## What should I know before submitting a pull request or issue
+
+> We adhere to [SemVer 2.0](https://semver.org/spec/v2.0.0.html) to the best of our ability.
 
 This workflow is written in [TypeScript](https://www.typescriptlang.org/), a typed variant of JavaScript, and we use [Prettier](https://prettier.io/) to get a consistent code style.
 
