@@ -5,16 +5,22 @@ inputs:
   label:
     description: 'Label to add to the current issue.'
     default: 'multiple issues'
+    required: false
   issueNumber:
     description: 'Include the previous issue number created by the author in the comment.'
+    default: 'true'
+    required: false
   comment:
     description: 'Custom text to add with or without the issue number in the comment.'
     default: ''
+    required: false
   close:
     description: 'Close the current issue if set to true.'
+    required: false
   gh-token:
     description: 'The GitHub token for authentication.'
-    required: true
+    default: ${{ github.token }}
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
