@@ -50,7 +50,7 @@ async function HandleMultipleIssues() {
         // Retrieve custom inputs
         const labels = core.getInput("label").split(",").map(label => label.trim());
         const assign = core.getInput("assign") === "true" || false;
-        const issueNumber = core.getInput("issueNumber") === "true" || false; // converts to boolean
+        const issueNumber = core.getInput("issueNumber") === "true";
         const comment = core.getInput("comment");
         const close = core.getInput("close") === "true" || false;
         const checkComment = comment.trim() !== "";
