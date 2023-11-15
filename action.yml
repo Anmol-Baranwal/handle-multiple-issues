@@ -21,6 +21,10 @@ inputs:
     description: 'The GitHub token for authentication.'
     default: ${{ github.token }}
     required: false
+  assign:
+    description: 'To filter the issues that are assigned to the author'
+    default: 'false'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

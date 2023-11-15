@@ -49,6 +49,7 @@ async function HandleMultipleIssues() {
         core.notice("step 1.");
         // Retrieve custom inputs
         const labels = core.getInput("label").split(",").map(label => label.trim());
+        const assign = core.getInput("assign") === "true" || false;
         const issueNumber = core.getInput("issueNumber") === "true" || false; // converts to boolean
         const comment = core.getInput("comment");
         const close = core.getInput("close") === "true" || false;
@@ -62,12 +63,15 @@ async function HandleMultipleIssues() {
             creator: author,
             state: "open",
         });
-        if (authorIssues.length === 0) {
-            core.notice("No existing open issues for this author.");
+        const filteredIssues = assign
+            ? authorIssues.filter((issue) => issue.assignees.some((assignee) => assignee.login === author))
+            : authorIssues;
+        if (filteredIssues.length === 0) {
+            core.notice(`No existing ${assign === true ? "issues created by and assigned to" : "open issues for"} this author.`);
             return; // No need to continue.
         }
         core.notice("step 3.");
-        const previousIssueNumbers = authorIssues
+        const previousIssueNumbers = filteredIssues
             .filter((issue) => issue.number !== context.issue.number) // Exclude the current issue
             .map((issue) => issue.number);
         if (previousIssueNumbers.length > 0) {
@@ -102,7 +106,10 @@ async function HandleMultipleIssues() {
                 let commentText = "";
                 if (!checkComment) {
                     // Condition 1: issueNumber is true, comment is false
-                    commentText = `${issueLinks} is already opened by you.`;
+                    if (assign)
+                        commentText = `${issueLinks} has been opened by you and is also assigned to you.`;
+                    else
+                        commentText = `${issueLinks} is already opened by you.`;
                 }
                 else if (checkComment) {
                     // Condition 2: issueNumber is true, comment is true

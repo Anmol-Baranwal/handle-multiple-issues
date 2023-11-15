@@ -22,6 +22,7 @@ async function HandleMultipleIssues() {
 
     // Retrieve custom inputs
     const labels = core.getInput("label").split(",").map(label => label.trim());
+    const assign = core.getInput("assign")  === "true" || false;
     const issueNumber = core.getInput("issueNumber") === "true" || false; // converts to boolean
     const comment = core.getInput("comment");
     const close = core.getInput("close") === "true" || false;
@@ -40,14 +41,24 @@ async function HandleMultipleIssues() {
       state: "open",
     });
 
-    if (authorIssues.length === 0) {
-      core.notice("No existing open issues for this author.");
-      return; // No need to continue.
-    }
+    const filteredIssues = assign
+      ? authorIssues.filter((issue: any) =>
+          issue.assignees.some((assignee: any) => assignee.login === author)
+        )
+      : authorIssues
+
+      if (filteredIssues.length === 0) {
+        core.notice(
+          `No existing ${
+            assign === true ? "issues created by and assigned to" : "open issues for"
+          } this author.`
+        )
+        return // No need to continue.
+      }
 
     core.notice("step 3.");
 
-    const previousIssueNumbers = authorIssues
+    const previousIssueNumbers = filteredIssues
       .filter((issue: { number: any }) => issue.number !== context.issue.number) // Exclude the current issue
       .map((issue: { number: any }) => issue.number);
 
@@ -87,7 +98,9 @@ async function HandleMultipleIssues() {
 
         if (!checkComment) {
           // Condition 1: issueNumber is true, comment is false
-          commentText = `${issueLinks} is already opened by you.`;
+
+          if(assign)  commentText = `${issueLinks} has been opened by you and is also assigned to you.`;
+          else commentText = `${issueLinks} is already opened by you.`;
         } else if (checkComment) {
           // Condition 2: issueNumber is true, comment is true
           commentText = `${issueLinks} ${comment}`;
