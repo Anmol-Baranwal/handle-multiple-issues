@@ -3,7 +3,7 @@ description: 'Handle the current issue if the author has existing open issues'
 author: 'Anmol Baranwal <anmolbaranwal119@gmail.com>'
 inputs:
   label:
-    description: 'Label to add to the current issue.'
+    description: 'Add a label to the current issue. Use commas to separate if there are multiple labels.'
     default: 'multiple issues'
     required: false
   issueNumber:

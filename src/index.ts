@@ -2,8 +2,6 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 
 async function HandleMultipleIssues() {
-  console.log("Hello World!");
-
   try {
     const token = core.getInput("gh-token");
 
@@ -23,8 +21,7 @@ async function HandleMultipleIssues() {
     core.notice("step 1.");
 
     // Retrieve custom inputs
-    const label = core.getInput("label") || "multiple issues"; // Set default label
-    const labelInput = core.getInput("label");
+    const labels = core.getInput("label").split(",").map(label => label.trim());
     const issueNumber = core.getInput("issueNumber") === "true" || false; // converts to boolean
     const comment = core.getInput("comment");
     const close = core.getInput("close") === "true" || false;
@@ -62,8 +59,8 @@ async function HandleMultipleIssues() {
         .join(", ");
 
       // Check if label is an array and add multiple labels if needed
-      if (Array.isArray(label)) {
-        for (const lbl of label) {
+      if (Array.isArray(labels)) {
+        for (const lbl of labels) {
           await octokit.rest.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -77,7 +74,7 @@ async function HandleMultipleIssues() {
           owner: context.repo.owner,
           repo: context.repo.repo,
           issue_number: issueNumberToLabel,
-          labels: [label],
+          labels: [labels],
         });
       }
 
