@@ -2,8 +2,6 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 
 async function HandleMultipleIssues() {
-  console.log("Hello World!");
-
   try {
     const token = core.getInput("gh-token");
 
@@ -23,9 +21,9 @@ async function HandleMultipleIssues() {
     core.notice("step 1.");
 
     // Retrieve custom inputs
-    const label = core.getInput("label") || "multiple issues"; // Set default label
-    const labelInput = core.getInput("label");
-    const issueNumber = core.getInput("issueNumber") === "true" || false; // converts to boolean
+    const labels = core.getInput("label").split(",").map(label => label.trim());
+    const assign = core.getInput("assign")  === "true" || false;
+    const issueNumber = core.getInput("issueNumber") === "true";
     const comment = core.getInput("comment");
     const close = core.getInput("close") === "true" || false;
 
@@ -43,14 +41,24 @@ async function HandleMultipleIssues() {
       state: "open",
     });
 
-    if (authorIssues.length === 0) {
-      core.notice("No existing open issues for this author.");
-      return; // No need to continue.
-    }
+    const filteredIssues = assign
+      ? authorIssues.filter((issue: any) =>
+          issue.assignees.some((assignee: any) => assignee.login === author)
+        )
+      : authorIssues
+
+      if (filteredIssues.length === 0) {
+        core.notice(
+          `No existing ${
+            assign === true ? "issues created by and assigned to" : "open issues for"
+          } this author.`
+        )
+        return // No need to continue.
+      }
 
     core.notice("step 3.");
 
-    const previousIssueNumbers = authorIssues
+    const previousIssueNumbers = filteredIssues
       .filter((issue: { number: any }) => issue.number !== context.issue.number) // Exclude the current issue
       .map((issue: { number: any }) => issue.number);
 
@@ -62,8 +70,8 @@ async function HandleMultipleIssues() {
         .join(", ");
 
       // Check if label is an array and add multiple labels if needed
-      if (Array.isArray(label)) {
-        for (const lbl of label) {
+      if (Array.isArray(labels)) {
+        for (const lbl of labels) {
           await octokit.rest.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -77,7 +85,7 @@ async function HandleMultipleIssues() {
           owner: context.repo.owner,
           repo: context.repo.repo,
           issue_number: issueNumberToLabel,
-          labels: [label],
+          labels: [labels],
         });
       }
 
@@ -90,7 +98,9 @@ async function HandleMultipleIssues() {
 
         if (!checkComment) {
           // Condition 1: issueNumber is true, comment is false
-          commentText = `${issueLinks} is already opened by you.`;
+
+          if(assign)  commentText = `${issueLinks} has been opened by you and is also assigned to you.`;
+          else commentText = `${issueLinks} is already opened by you.`;
         } else if (checkComment) {
           // Condition 2: issueNumber is true, comment is true
           commentText = `${issueLinks} ${comment}`;

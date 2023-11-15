@@ -1,14 +1,15 @@
 ## Handle Multiple Issues
 
-> ℹ️ This GitHub workflow is designed for open source projects where users are allowed to create only one issue at a time.
+> ℹ️ This GitHub workflow is designed for open source projects where users are allowed to work on only one issue at a time.
 
 With this GitHub workflow, you can automate tasks whenever an author creates multiple open issues.
 
 ### Use cases
 
 - The workflow can comment the issues that are already created by the author which are currently in the open state.
+- You can also filter the issues that are assigned to you
 - You can add your own comment message (even multiline) in the issue.
-- Add a custom label on the issue.
+- You can add label or labels based on your preferences.
 - Optionally, you can also close the issue (previous issues won't be affected), and only the current issue will be closed.
 
 ---
@@ -16,8 +17,11 @@ With this GitHub workflow, you can automate tasks whenever an author creates mul
 ### 🚀 Getting Started
 
 - For custom configuration in-depth, you can check [examples](#examples).
+- Create a file in the repository at the following path: `.github/workflows/handle-multiple-issues.yml` and paste the following code into it.
 
 ```yml
+name: Handle Multiple Issues
+
 on:
   issues:
     types:
@@ -32,8 +36,7 @@ jobs:
         with:
           label: "multiple issues" #default
           close: false  #default
-          issueNumber: true  #default is false
-          gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
+          issueNumber: true  #default is true
 ```
 
 ---
@@ -44,26 +47,30 @@ Various inputs are defined to let you configure the action:
 
 | Name | Description | Default |
 | ---- | ----------- | ------- |
-| `gh-token` | The GitHub token for authentication | N/A |
-| `label` | A label to add if the conditions are fulfilled | `'multiple issues'` |
+| `gh-token` | The GitHub token for authentication | `'${{ github.token }}'` |
+| `label` | Add a label to the current issue. Use commas to separate if there are multiple labels. | `'multiple issues'` |
 | `comment` | A message to comment on the issue | `''` |
 | `close` | This will close the issue if set to true | `'false'` |
-| `issueNumber` | This will comment all the previous issues that are created by the author | `'potential-duplicate'` |
+| `issueNumber` | This will comment all the previous issues that are created by the author | `'true'` |
+| `assign` | This will filter the issues that are assigned to the author (works only if `issueNumber` is `true`) | `'false'` |
 
 <br>
 
-The four Combinations that you can use with comment and issueNumber:
+The Combinations that you can use with `comment`, `assign` and `issueNumber`:
 
-> Suppose, a user has created `#1`, `#2` which are currently open and we have now included this workflow. Now suppose he creates the `#3` issue.
+> Suppose, a user has created `#1`, `#2` which are currently open, only `#2` is assigned to author and we have now included this workflow. Now suppose he creates the `#3` issue.
 
 > You can see the [examples](#examples) for better clarity.
 
-| issueNumber | comment | Purpose | Message by Bot |
-| ----------- | ------- | ------- | -------------- |
-| `true` |  | To mention issue number with the default message | `#2, #1 is already opened by you` |
-| `true` | `custom_message` | To mention issue number with a custom message | `#2, #1 custom_message` |
-| `false` | `custom_message` | Custom message without mentioning issue | `custom_message` |
-| `false` |  | Nothing is mentioned; only the label is added as per the workflow | |
+| issueNumber | comment | assign | Purpose | Message by Bot |
+| ----------- | ------- | ------ | ------- | -------------- |
+| `true` |  | `false` | To mention issue number with the default message | `#2, #1 is already opened by you` |
+| `true` | `custom_message` | `false` | To mention issue number with a custom message | `#2, #1 custom_message` |
+| `false` | `custom_message` | `false` | Custom message without mentioning issue | `custom_message` |
+| `false` |  | `false` | Nothing is mentioned; only the label is added as per the workflow |  |
+| `true` |  | `true` | To filter issues that are created by the author and assigned to the same author  | `#2 has been opened by you and is also assigned to you.` |
+
+> Only the default message is modified when `assign` is set to `true`; the concept of a custom message remains unchanged.
 
 
 ---
@@ -78,8 +85,7 @@ uses: Anmol-Baranwal/handle-multiple-issues@v1
 with:
   label: "up for grabs" #default is 'multiple issues'
   close: false  #default
-  issueNumber: true  #default is false
-  gh-token: ${{ secrets.GITHUB_TOKEN }}
+  issueNumber: true  #default is true
 ```
   
 </details>
@@ -94,8 +100,7 @@ uses: Anmol-Baranwal/handle-multiple-issues@v1
 with:
   # label 'multiple issues' will be added
   comment: 'custom message'
-  issueNumber: true
-  gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
+  issueNumber: true  #default is true
 ```
   
 </details>
@@ -110,7 +115,7 @@ uses: Anmol-Baranwal/handle-multiple-issues@v1
 with:
   label: "multiple issues" #default
   comment: 'custom message'
-  gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
+  issueNumber: false  #default is true
 ```
   
 </details>
@@ -127,13 +132,50 @@ with:
   comment: |
     custom message1
     custom message2
-  issueNumber: true  #default is false
-  gh-token: ${{ secrets.GITHUB_TOKEN }} # this is mandatory
+  issueNumber: true  #default is true
 
 #  Suppose #1 is already created by the author.
 #  Output
 #  #1 custom message1
 #  custom message2
+```
+
+</details>
+
+<br>
+
+<details>
+  <summary>Add multiple labels</summary>
+  
+```yml
+uses: Anmol-Baranwal/handle-multiple-issues@v1
+with:
+  label: 'label1, label2'   # separate using comma
+  issueNumber: true  #default is true
+```
+
+</details>
+
+<br>
+
+<details>
+  <summary>To filter issues that are assigned to the author</summary>
+
+  <br>
+
+  - The same rules for message applies to this condition
+  - This will not work unless `issueNumber` is `true`.
+
+  
+```yml
+uses: Anmol-Baranwal/handle-multiple-issues@v1
+with:
+  issueNumber: true   # default is true
+  assign: true   # this will not work, unless 'issueNumber' is true
+
+#  Suppose #1, #2 is already created by the author. But only #2 is assigned to the author.
+#  Output
+#  #2 has been opened by you and is also assigned to you.
 ```
 
 </details>

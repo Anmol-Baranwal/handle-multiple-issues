@@ -3,18 +3,28 @@ description: 'Handle the current issue if the author has existing open issues'
 author: 'Anmol Baranwal <anmolbaranwal119@gmail.com>'
 inputs:
   label:
-    description: 'Label to add to the current issue.'
+    description: 'Add a label to the current issue. Use commas to separate if there are multiple labels.'
     default: 'multiple issues'
+    required: false
   issueNumber:
     description: 'Include the previous issue number created by the author in the comment.'
+    default: 'true'
+    required: false
   comment:
     description: 'Custom text to add with or without the issue number in the comment.'
     default: ''
+    required: false
   close:
     description: 'Close the current issue if set to true.'
+    required: false
   gh-token:
     description: 'The GitHub token for authentication.'
-    required: true
+    default: ${{ github.token }}
+    required: false
+  assign:
+    description: 'To filter the issues that are assigned to the author'
+    default: 'false'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
