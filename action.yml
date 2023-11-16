@@ -27,7 +27,7 @@ inputs:
     required: false
   ignoreUsers:
     description: 'Specify usernames that should be ignored while running this workflow'
-    default: 'false'
+    default: ''
     required: false
   ignoreCollaborators:
     description: 'Ignore all the collaborators in the repository while running this workflow'
