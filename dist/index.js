@@ -48,26 +48,50 @@ async function HandleMultipleIssues() {
         const context = github.context;
         core.notice("step 1.");
         // Retrieve custom inputs
-        const labels = core.getInput("label").split(",").map(label => label.trim());
+        const labels = core
+            .getInput("label")
+            .split(",")
+            .map((label) => label.trim());
         const assign = core.getInput("assign") === "true" || false;
         const issueNumber = core.getInput("issueNumber") === "true";
         const comment = core.getInput("comment");
         const close = core.getInput("close") === "true" || false;
+        const ignoreUsers = core
+            .getInput("ignoreUsers")
+            .split(",")
+            .map((user) => user.trim());
+        const ignoreCollaboratorsInput = core.getInput("ignoreCollaborators") === "true" || false;
         const checkComment = comment.trim() !== "";
         // Check if the same author has open issues
         const author = (_a = context.payload.issue) === null || _a === void 0 ? void 0 : _a.user.login;
+        if (ignoreUsers.includes(author)) {
+            core.notice(`User: ${author} is on the ignore list. Ignoring the workflow for this user.`);
+            return; // No need to continue.
+        }
+        const collaboratorUsernames = ignoreCollaboratorsInput
+            ? (await octokit.rest.repos.listCollaborators({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+            })).data.map((collaborator) => collaborator.login)
+            : [];
+        if (collaboratorUsernames.includes(author)) {
+            core.notice(`User ${author} is a collaborator. Ignoring the issue for collaborators.`);
+            return; // No need to continue.
+        }
         core.notice("step 2.");
         const { data: authorIssues } = await octokit.rest.issues.listForRepo({
             owner: context.repo.owner,
             repo: context.repo.repo,
             creator: author,
-            state: "open",
+            state: "open"
         });
         const filteredIssues = assign
             ? authorIssues.filter((issue) => issue.assignees.some((assignee) => assignee.login === author))
             : authorIssues;
         if (filteredIssues.length === 0) {
-            core.notice(`No existing ${assign === true ? "issues created by and assigned to" : "open issues for"} this author.`);
+            core.notice(`No existing ${assign === true
+                ? "issues created by and assigned to"
+                : "open issues for"} this author.`);
             return; // No need to continue.
         }
         core.notice("step 3.");
@@ -86,7 +110,7 @@ async function HandleMultipleIssues() {
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         issue_number: issueNumberToLabel,
-                        labels: [lbl],
+                        labels: [lbl]
                     });
                 }
             }
@@ -96,7 +120,7 @@ async function HandleMultipleIssues() {
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: issueNumberToLabel,
-                    labels: [labels],
+                    labels: [labels]
                 });
             }
             core.notice("Labels added to issue #" + issueNumberToLabel);
@@ -119,7 +143,7 @@ async function HandleMultipleIssues() {
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: issueNumberToLabel,
-                    body: commentText,
+                    body: commentText
                 });
                 core.notice("Comment added to issue #" + issueNumberToLabel);
             }
@@ -129,7 +153,7 @@ async function HandleMultipleIssues() {
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: issueNumberToLabel,
-                    body: comment,
+                    body: comment
                 });
                 core.notice("Comment added to issue #" + issueNumberToLabel);
             }
@@ -139,7 +163,7 @@ async function HandleMultipleIssues() {
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: issueNumberToLabel,
-                    state: "closed",
+                    state: "closed"
                 });
                 core.notice("Issue #" + issueNumberToLabel + " closed");
             }

@@ -7,10 +7,12 @@ With this GitHub workflow, you can automate tasks whenever an author creates mul
 ### Use cases
 
 - The workflow can comment the issues that are already created by the author which are currently in the open state.
-- You can also filter the issues that are assigned to you
+- You can also filter the issues that are assigned to the author of the issue
 - You can add your own comment message (even multiline) in the issue.
 - You can add label or labels based on your preferences.
 - Optionally, you can also close the issue (previous issues won't be affected), and only the current issue will be closed.
+- You can ignore this workflow for specific users by using `ignoreUsers`
+- You can directly pass `ignoreCollaborators`
 
 ---
 
@@ -53,6 +55,8 @@ Various inputs are defined to let you configure the action:
 | `close` | This will close the issue if set to true | `'false'` |
 | `issueNumber` | This will comment all the previous issues that are created by the author | `'true'` |
 | `assign` | This will filter the issues that are assigned to the author (works only if `issueNumber` is `true`) | `'false'` |
+| `ignoreUsers` | Specify usernames that should be ignored while running this workflow. Use commas to separate if there are multiple users. | `''` |
+| `ignoreCollaborators` | This will ignore all the collaborators in the repository while running this workflow | `'false'` |
 
 <br>
 
@@ -176,6 +180,50 @@ with:
 #  Suppose #1, #2 is already created by the author. But only #2 is assigned to the author.
 #  Output
 #  #2 has been opened by you and is also assigned to you.
+```
+
+</details>
+
+<br>
+
+<details>
+  <summary>To ignore specified users while running this workflow</summary>
+
+<br>
+
+  - Suppose, we have to ignore this workflow for users with username: `Anmol-Baranwal`, `AnmolB2`.
+
+```yml
+uses: Anmol-Baranwal/handle-multiple-issues@v1
+with:
+  issueNumber: true   # default is true
+  ignoreUsers: 'Anmol-Baranwal, AnmolB2'
+
+#  Suppose Anmol-Baranwal created an issue. You will receive a log message during the workflow execution.
+#  Log Message
+#  User: Anmol-Baranwal is on the ignore list. Ignoring the workflow for this user.
+```
+
+</details>
+
+<br>
+
+<details>
+  <summary>To ignore collaborators of the repository while running this workflow</summary>
+
+<br>
+
+  - Suppose, we have to ignore this workflow for users with username: `Anmol-Baranwal`, `AnmolB2`.
+
+```yml
+uses: Anmol-Baranwal/handle-multiple-issues@v1
+with:
+  issueNumber: true   # default is true
+  ignoreCollaborators: true
+
+#  Suppose Anmol-Baranwal created an issue and is a collaborator. You will receive a log message during the workflow execution.
+#  Log Message
+#  User: Anmol-Baranwal is a collaborator. Ignoring the issue for collaborators.
 ```
 
 </details>
