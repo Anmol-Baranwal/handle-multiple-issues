@@ -25,6 +25,10 @@ inputs:
     description: 'To filter the issues that are assigned to the author'
     default: 'false'
     required: false
+  ignore-users:
+    description: 'Specify usernames that should be ignored while running this workflow'
+    default: 'false'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

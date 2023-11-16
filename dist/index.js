@@ -53,9 +53,14 @@ async function HandleMultipleIssues() {
         const issueNumber = core.getInput("issueNumber") === "true";
         const comment = core.getInput("comment");
         const close = core.getInput("close") === "true" || false;
+        const ignoreUsers = core.getInput("ignore-users").split(",").map(user => user.trim());
         const checkComment = comment.trim() !== "";
         // Check if the same author has open issues
         const author = (_a = context.payload.issue) === null || _a === void 0 ? void 0 : _a.user.login;
+        if (ignoreUsers.includes(author)) {
+            core.notice(`User: ${author} is on the ignore list. Ignoring the workflow for this user.`);
+            return; // No need to continue.
+        }
         core.notice("step 2.");
         const { data: authorIssues } = await octokit.rest.issues.listForRepo({
             owner: context.repo.owner,
