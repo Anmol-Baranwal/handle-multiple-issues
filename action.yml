@@ -25,7 +25,7 @@ inputs:
     description: 'To filter the issues that are assigned to the author'
     default: 'false'
     required: false
-  ignore-users:
+  ignoreUsers:
     description: 'Specify usernames that should be ignored while running this workflow'
     default: 'false'
     required: false

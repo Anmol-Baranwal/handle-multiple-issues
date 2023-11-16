@@ -30,7 +30,7 @@ async function HandleMultipleIssues() {
     const comment = core.getInput("comment")
     const close = core.getInput("close") === "true" || false
     const ignoreUsers = core
-      .getInput("ignore-users")
+      .getInput("ignoreUsers")
       .split(",")
       .map((user) => user.trim())
     const ignoreCollaboratorsInput =
